@@ -11,7 +11,7 @@ export function ref(initial_value){
         callback(data)
         callbacks.push(callback);
     }
-    initial_value.subscribe = subscribe;
+    initial_value.__subscribe = subscribe;
     return data
 }
 
@@ -32,7 +32,7 @@ export class element{
         }
         else
         {
-            data.subscribe(yes_callback)
+            data.__subscribe(yes_callback)
         }
     }
     class(name, obj, callback)
