@@ -11,7 +11,8 @@ export function ref(initial_value){
         callback(data)
         callbacks.push(callback);
     }
-    return [data,subscribe]
+    initial_value.subscribe = subscribe;
+    return data
 }
 
 export class element{
@@ -23,7 +24,7 @@ export class element{
     {
         this.element.classList.remove(...(name.split(" ")));
     }
-    #HandleReactivity(response_callback,subscribe,no_callback, yes_callback)
+    #HandleReactivity(response_callback,data,no_callback, yes_callback)
     {
         if(response_callback === undefined)
         {
@@ -31,7 +32,7 @@ export class element{
         }
         else
         {
-            subscribe(yes_callback)
+            data.subscribe(yes_callback)
         }
     }
     class(name, obj, callback)
@@ -113,11 +114,11 @@ export class element{
         this.element.remove();
     }
 
-    model(subscribe,get,set)
+    model(data,get,set)
     {
-        this.property("value", subscribe, (obj) => get(obj))
+        this.property("value", data, (obj) => get(obj))
         this.event("input", (e) => {
-            set(e.target.value)
+            set(data, e.target.value)
         })
     }
 }
