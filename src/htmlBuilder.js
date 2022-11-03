@@ -2,16 +2,18 @@ import ObservableSlim from 'observable-slim';
 
 export function ref(initial_value){
     const callbacks = [];
-    const data = ObservableSlim.create(initial_value, true, (changes)=> {
-        for(const callback of callbacks){
-            callback(data);
-        }
-    });
+
     function subscribe(callback){
         callback(data)
         callbacks.push(callback);
     }
     initial_value.__subscribe = subscribe;
+    
+    const data = ObservableSlim.create(initial_value, true, (changes)=> {
+        for(const callback of callbacks){
+            callback(data);
+        }
+    });
     return data
 }
 
