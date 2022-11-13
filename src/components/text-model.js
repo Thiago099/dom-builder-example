@@ -3,15 +3,15 @@ export default function textModel(text = "Hello world")
 {
     const data = effect({text})
 
-    const main = new element("div")
+    const main = element("div")
         .class("block")
 
-    new element("h3")
+    element("h3")
         .effect(data)
         .html(()=>data.text)
         .parent(main)
 
-    new element("input")
+    element("input")
         .parent(main)
         .effect(data)
         .model( 

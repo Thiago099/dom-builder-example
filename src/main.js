@@ -5,11 +5,11 @@ import count from './components/count.js'
 import textModel from './components/text-model.js'
 
 
-const main = new element("div")
+const main = element("div")
     .class("main")
     .parent(document.body)
 
-new element("h1")
+element("h1")
     .html("Hello world")
     .parent(main)
     .class("title")

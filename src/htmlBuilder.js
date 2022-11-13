@@ -16,7 +16,7 @@ export function effect(initial_value){
     return data
 }
 
-export class element{
+class el{
     // constructor
     constructor(name) {
         this.element = document.createElement(name);
@@ -142,4 +142,8 @@ export class element{
             set(e.target.value)
         })
     }
+}
+
+export function element(type) {
+    return new el(type);
 }
