@@ -1,4 +1,4 @@
-import { element, ref } from "./htmlBuilder";
+import { element, effect } from "./htmlBuilder";
 import './style.css'
 
 import count from './components/count.js'
@@ -14,7 +14,6 @@ new element("h1")
     .parent(main)
     .class("title")
     
-
 count()
     .parent(main)
 

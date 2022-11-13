@@ -1,6 +1,6 @@
 import ObservableSlim from 'observable-slim';
 
-export function ref(initial_value){
+export function effect(initial_value){
     const callbacks = [];
 
     function subscribe(callback){
@@ -21,36 +21,49 @@ export class element{
     // constructor
     constructor(name) {
         this.element = document.createElement(name);
+        this.events = [];
     }
-    removeClass(name)
+
+    effect(data)
     {
-        this.element.classList.remove(...(name.split(" ")));
-    }
-    #HandleReactivity(response_callback,data,no_callback, yes_callback)
-    {
-        if(response_callback === undefined)
-        {
-            no_callback()
-        }
-        else
-        {
-            data.__subscribe(yes_callback)
-        }
-    }
-    class(name, obj, callback)
-    {
-        this.#HandleReactivity(callback, obj, 
-        ()=>{
-            this.element.classList.add(...(name.split(" ")));
-        },
-        (data)=>{
-            if(callback(data))
+        data.__subscribe(() => {
+            for(const event of this.events)
             {
-                this.class(name)
+                event()
+            }
+        })
+        return this
+    }
+
+    #handleFunction(data)
+    {
+        if(typeof data === "function")
+        {
+            return data()
+        }
+        return data
+    }
+
+    #handleEffect(callback)
+    {
+        const main = () =>
+        {
+            callback()
+        }
+        main()
+        this.events.push(main)
+    }
+
+    class(name, value = true)
+    {
+        this.#handleEffect(()=>{
+            if(this.#handleFunction(value))
+            {
+                this.element.classList.add(...(this.#handleFunction(name).split(" ")));
             }
             else
             {
-                this.removeClass(name)
+                this.element.classList.remove(...(this.#handleFunction(name).split(" ")));
             }
         })
         return this
@@ -77,37 +90,25 @@ export class element{
         this.element.addEventListener(event, callbackFunction);
         return this
     }
-    property(name, obj,callback)
+    property(name, value)
     {
-        this.#HandleReactivity(callback, obj, 
-        ()=>{
-            this.element[name] = obj;
-        },
-        (data)=>{
-            this.element[name] = callback(data);
+        this.#handleEffect(()=>{
+            this.element[this.#handleFunction(name)] = this.#handleFunction(value);
         })
         return this
     }
-    style(name, obj,callback)
+    style(name, value)
     {
-        this.#HandleReactivity(callback, obj, 
-        ()=>{
-            this.element.style[name] = obj;
-        },
-        (data)=>{
-            this.element.style[name] = callback(data);
+        this.#handleEffect(()=>{
+            this.element.style[this.#handleFunction(name)] = this.#handleFunction(value);
         })
         return this
     }
     
-    html(obj, callback)
+    html(value)
     {
-        this.#HandleReactivity(callback, obj, 
-        ()=>{
-            this.element.innerHTML = obj;
-        },
-        (data)=>{
-            this.element.innerHTML = callback(data)
+        this.#handleEffect(()=>{
+            this.element.innerHTML = this.#handleFunction(value)
         })
         return this
     }
@@ -116,11 +117,11 @@ export class element{
         this.element.remove();
     }
 
-    model(data,get,set)
+    model(get,set)
     {
-        this.property("value", data, (obj) => get(obj))
+        this.property("value", get)
         this.event("input", (e) => {
-            set(data, e.target.value)
+            set(e.target.value)
         })
     }
 }
