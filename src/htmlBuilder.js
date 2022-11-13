@@ -44,19 +44,38 @@ export class element{
         return data
     }
 
-    #handleEffect(callback)
+    #handleEffect(isReactive,callback)
     {
-        const main = () =>
+        if(isReactive)
+        {
+            const main = () =>
+            {
+                callback()
+            }
+            main()
+            this.events.push(main)
+        }
+        else
         {
             callback()
         }
-        main()
-        this.events.push(main)
+    }
+
+    #isReactive(...fields)
+    {
+        for(const field of fields)
+        {
+            if(typeof field === "function")
+            {
+                return true
+            }
+        }
+        return false
     }
 
     class(name, value = true)
     {
-        this.#handleEffect(()=>{
+        this.#handleEffect(this.#isReactive(name,value),()=>{
             if(this.#handleFunction(value))
             {
                 this.element.classList.add(...(this.#handleFunction(name).split(" ")));
@@ -92,14 +111,14 @@ export class element{
     }
     property(name, value)
     {
-        this.#handleEffect(()=>{
+        this.#handleEffect(this.#isReactive(name,value),()=>{
             this.element[this.#handleFunction(name)] = this.#handleFunction(value);
         })
         return this
     }
     style(name, value)
     {
-        this.#handleEffect(()=>{
+        this.#handleEffect(this.#isReactive(name,value),()=>{
             this.element.style[this.#handleFunction(name)] = this.#handleFunction(value);
         })
         return this
@@ -107,7 +126,7 @@ export class element{
     
     html(value)
     {
-        this.#handleEffect(()=>{
+        this.#handleEffect(this.#isReactive(value),()=>{
             this.element.innerHTML = this.#handleFunction(value)
         })
         return this
