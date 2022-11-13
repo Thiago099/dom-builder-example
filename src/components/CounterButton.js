@@ -1,5 +1,5 @@
-import { element, effect } from "../htmlBuilder";
-export default function count()
+import { element, effect } from "@thiago-kaique/doom-builder";
+export default function CounterButton()
 {
     const data = effect({count: 0})
     const main = element("div")

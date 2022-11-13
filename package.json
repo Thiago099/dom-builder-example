@@ -12,6 +12,6 @@
     "vite": "^3.1.0"
   },
   "dependencies": {
-    "observable-slim": "^0.1.6"
+    "@thiago-kaique/doom-builder": "^1.0.0"
   }
 }

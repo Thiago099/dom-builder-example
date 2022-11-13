@@ -1,10 +1,10 @@
-import { element, effect } from "../htmlBuilder";
-export default function textModel(text = "Hello world")
+import { element, effect } from "@thiago-kaique/doom-builder";
+export default function EditableTitle(text = "Hello world")
 {
     const data = effect({text})
 
     const main = element("div")
-        .class("block")
+        .class("card")
 
     element("h3")
         .effect(data)
@@ -18,8 +18,6 @@ export default function textModel(text = "Hello world")
             () => data.text, 
             (value) => data.text = value
         )
-
-
 
     return main
 }

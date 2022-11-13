@@ -1,8 +1,8 @@
-import { element, effect } from "./htmlBuilder";
+import { element, effect } from "@thiago-kaique/doom-builder";
 import './style.css'
 
-import count from './components/count.js'
-import textModel from './components/text-model.js'
+import CounterButton from './components/CounterButton.js'
+import EditableTitle from './components/EditableTitle.js'
 
 
 const main = element("div")
@@ -14,8 +14,8 @@ element("h1")
     .parent(main)
     .class("title")
     
-count()
+CounterButton()
     .parent(main)
 
-textModel("Edit me to see the title change")
+EditableTitle("Edit me.")
     .parent(main)
