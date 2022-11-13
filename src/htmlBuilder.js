@@ -4,7 +4,6 @@ export function effect(initial_value){
     const callbacks = [];
 
     function subscribe(callback){
-        callback(data)
         callbacks.push(callback);
     }
     initial_value.__subscribe = subscribe;
