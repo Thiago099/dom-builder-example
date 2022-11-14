@@ -1,4 +1,4 @@
-import { element, effect } from "@thiago-kaique/doom-builder";
+import { element, effect } from "@thiago-kaique/dom-builder";
 export default function EditableTitle(text = "Hello world")
 {
     const data = effect({text})

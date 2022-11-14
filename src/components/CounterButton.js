@@ -1,4 +1,4 @@
-import { element, effect } from "@thiago-kaique/doom-builder";
+import { element, effect } from "@thiago-kaique/dom-builder";
 export default function CounterButton()
 {
     const data = effect({count: 0})

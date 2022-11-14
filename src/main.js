@@ -1,4 +1,4 @@
-import { element, effect } from "@thiago-kaique/doom-builder";
+import { element, effect } from "@thiago-kaique/dom-builder";
 import './style.css'
 
 import CounterButton from './components/CounterButton.js'
